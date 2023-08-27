@@ -1,0 +1,5 @@
+# https://prettier.io/docs/en/options.html#end-of-line
+# https://www.jetbrains.com/help/idea/configuring-line-endings-and-line-separators.html
+# https://docs.github.com/en/get-started/getting-started-with-git/configuring-git-to-handle-line-endings
+
+* text=auto eol=lf
