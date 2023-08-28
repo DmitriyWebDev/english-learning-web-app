@@ -19,6 +19,18 @@
     "url": "https://github.com/DmitriyWebDev/english-learning-web-app/issues"
   },
   "homepage": "https://github.com/DmitriyWebDev/english-learning-web-app#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "npm run lint-fix",
+      "npm run prettier",
+      "git add"
+    ]
+  },
   "dependencies": {
     "@babel/core": "^7.15.5",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
@@ -61,6 +73,8 @@
     "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^7.1.1",
     "html-webpack-plugin": "^5.5.0",
+    "husky": "^3.1.0",
+    "lint-staged": "^12.3.3",
     "mini-css-extract-plugin": "^2.5.3",
     "prettier": "^2.2.1",
     "react": "^18.2.0",
