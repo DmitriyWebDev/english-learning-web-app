@@ -6,7 +6,7 @@ import * as packageJson from './package.json';
 import ESLintPlugin from 'eslint-webpack-plugin';
 
 const APP_DIR_NAME = 'app';
-const APP_DIR_PATH = path.join(__dirname, APP_DIR_NAME);
+const APP_DIR_PATH = path.join(__dirname, 'src', APP_DIR_NAME);
 const BUILD_DIR_PATH = path.join(__dirname, 'public/static');
 
 const FRONTEND_APP_VERSION = JSON.stringify(packageJson.version);

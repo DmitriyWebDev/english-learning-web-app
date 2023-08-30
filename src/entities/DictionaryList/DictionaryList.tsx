@@ -1,8 +1,10 @@
 import { FC } from 'react';
 import { Container, Button } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
+import { DictionaryListItem } from './DictionaryListItem';
+import { appEventEmitter } from '../../shared/eventEmitter';
 
-export const AppComponent: FC = () => {
+export const DictionaryList: FC = () => {
   return (
     <Container
       maxWidth={'xl'}
@@ -23,25 +25,13 @@ export const AppComponent: FC = () => {
       </Grid>
 
       <Grid container spacing={2}>
-        <Grid xs={3}>
-          <div>Словарь 1</div>
-        </Grid>
-
-        <Grid xs={3}>
-          <div>Словарь 2</div>
-        </Grid>
-
-        <Grid xs={3}>
-          <div>Словарь 3</div>
-        </Grid>
-
-        <Grid xs={3}>
-          <div>Словарь 4</div>
-        </Grid>
-
-        <Grid xs={3}>
-          <div>Словарь 5</div>
-        </Grid>
+        <DictionaryListItem
+          id={'1'}
+          title={'Словарь 1'}
+          onClick={(id) => {
+            appEventEmitter.emit('router:goToPage', id);
+          }}
+        />
       </Grid>
     </Container>
   );
