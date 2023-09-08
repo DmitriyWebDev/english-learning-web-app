@@ -1,5 +1,6 @@
 import { FC } from 'react';
+import { RootPage } from '../pages';
 
 export const AppComponent: FC = () => {
-  return <div>Hello, World!!!</div>;
+  return <RootPage />;
 };
