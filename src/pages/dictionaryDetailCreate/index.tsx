@@ -6,7 +6,7 @@ import {
   AddTermFormToDictionary,
   ChangeDictionaryTitle,
   CreateDictionary,
-  GoToDictionaryPreviewList,
+  GoToDictionaryPreviewListPage,
 } from '../../features/dictionary';
 
 export const DictionaryDetailPageCreate: FC = () => {
@@ -14,7 +14,7 @@ export const DictionaryDetailPageCreate: FC = () => {
     <PageContainer>
       <Grid container spacing={2}>
         <Grid>
-          <GoToDictionaryPreviewList text={'Назад к списку словарей'} />
+          <GoToDictionaryPreviewListPage text={'Назад к списку словарей'} />
         </Grid>
       </Grid>
 

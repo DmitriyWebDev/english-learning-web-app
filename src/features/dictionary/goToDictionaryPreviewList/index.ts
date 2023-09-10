@@ -1,1 +1,0 @@
-export { GoToDictionaryPreviewList } from './ui';
