@@ -8,15 +8,11 @@ import { DictionaryDetailPageLearn } from './dictionaryDetailLearn';
 export const RootPage: FC = () => {
   const [routerState, setRouterState] = useState<AppRoute>({ pageId: 'dictionaryPreviewList' });
 
-  const handleRouterEventGoToPage = (route: AppRoute) => {
-    setRouterState(route);
-  };
-
   useEffect(() => {
-    appEventEmitter.addListener('router:goToPage', handleRouterEventGoToPage);
+    appEventEmitter.addListener('router:goToPage', setRouterState);
 
     return () => {
-      appEventEmitter.removeListener('router:goToPage', handleRouterEventGoToPage);
+      appEventEmitter.removeListener('router:goToPage', setRouterState);
     };
   }, []);
 

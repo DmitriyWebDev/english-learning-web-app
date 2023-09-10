@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { DictionaryPreviewList } from '../../entities/dictionary';
 import Grid from '@mui/material/Unstable_Grid2';
-import { Button } from '@mui/material';
 import { PageContainer } from '../../shared/ui';
+import { GoToDictionaryDetailCreatePage } from '../../features/dictionary';
 
 export const DictionaryPreviewListPage: FC = () => {
   return (
@@ -10,7 +10,7 @@ export const DictionaryPreviewListPage: FC = () => {
       <Grid container spacing={2}>
         <Grid xs={'auto'}>
           <div>
-            <Button variant="contained">Создать словарь</Button>
+            <GoToDictionaryDetailCreatePage text={'Создать словарь'} />
           </div>
         </Grid>
       </Grid>
