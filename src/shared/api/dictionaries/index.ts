@@ -1,4 +1,5 @@
 import { DictionaryPreviewDto } from './models';
+import { AppDataStorage } from '../../lib/appDataStorage';
 
 const dictionariesPreviewList: DictionaryPreviewDto[] = [
   {
@@ -35,9 +36,9 @@ const dictionariesPreviewList: DictionaryPreviewDto[] = [
   },
 ];
 
-// TODO use class AppDataStorage
+const storage = AppDataStorage.getInstance();
 
 export const getDictionariesPreviewList = async () =>
   new Promise<DictionaryPreviewDto[]>((resolve) => {
-    resolve(dictionariesPreviewList);
+    resolve(storage.getDictionaries());
   });
