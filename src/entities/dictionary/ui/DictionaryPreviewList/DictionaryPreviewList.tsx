@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from 'react';
+import { FC, ReactNode, useEffect, useRef } from 'react';
 import { DictionaryPreviewListItem } from '../DictionaryPreviewListItem/DictionaryPreviewListItem';
 import { routerApi } from '../../../../shared/lib';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -14,11 +14,17 @@ export const DictionaryPreviewList: FC = () => {
     dictionaryStoreRef.current.getPreviewItems();
   }, []);
 
+  let render: ReactNode = <Grid xs={'auto'}>Словарей не найдено. Создайте свой первый словарь.</Grid>;
+
+  if (Array.isArray(dictionaryStore.previewItems) && dictionaryStore.previewItems.length > 0) {
+    render = dictionaryStore.previewItems.map(({ id, title }) => (
+      <DictionaryPreviewListItem key={id} id={id} title={title} onClick={goToDictionaryDetailLearnPage} />
+    ));
+  }
+
   return (
     <Grid container spacing={2}>
-      {dictionaryStore.previewItems.map(({ id, title }) => (
-        <DictionaryPreviewListItem key={id} id={id} title={title} onClick={goToDictionaryDetailLearnPage} />
-      ))}
+      {render}
     </Grid>
   );
 };
