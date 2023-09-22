@@ -4,3 +4,5 @@ export type DictionaryDto = {
 };
 
 export type DictionaryPreviewDto = DictionaryDto;
+
+export type DictionaryDtoForCreation = Omit<DictionaryDto, 'id'>;

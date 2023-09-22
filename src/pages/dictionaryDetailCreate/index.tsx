@@ -4,8 +4,8 @@ import { PageContainer } from '../../shared/ui';
 import { TermFormList } from '../../entities/term';
 import {
   AddTermFormToDictionary,
-  ChangeDictionaryTitle,
-  CreateDictionary,
+  ChangeDictionaryTitleOnCreationPage,
+  CreateDictionaryOnCreationPage,
   GoToDictionaryPreviewListPage,
 } from '../../features/dictionary';
 
@@ -22,13 +22,13 @@ export const DictionaryDetailPageCreate: FC = () => {
         <Grid xs={10}>Создать новый словарь</Grid>
 
         <Grid xs={'auto'}>
-          <CreateDictionary />
+          <CreateDictionaryOnCreationPage />
         </Grid>
       </Grid>
 
       <Grid container spacing={2}>
         <Grid>
-          <ChangeDictionaryTitle />
+          <ChangeDictionaryTitleOnCreationPage />
         </Grid>
       </Grid>
 
@@ -42,7 +42,7 @@ export const DictionaryDetailPageCreate: FC = () => {
 
       <Grid container spacing={2}>
         <Grid>
-          <CreateDictionary />
+          <CreateDictionaryOnCreationPage />
         </Grid>
       </Grid>
     </PageContainer>

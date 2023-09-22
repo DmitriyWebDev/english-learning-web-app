@@ -1,1 +1,1 @@
-export { ChangeDictionaryTitle } from './ui';
+export { ChangeDictionaryTitleOnCreationPage } from './ui';

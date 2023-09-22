@@ -1,6 +1,13 @@
 import { FC } from 'react';
 import { Button } from '@mui/material';
+import { useDictionaryStore } from '../../../entities/dictionary';
 
-export const CreateDictionary: FC = () => {
-  return <Button variant="contained">Создать</Button>;
+export const CreateDictionaryOnCreationPage: FC = () => {
+  const dictionaryStore = useDictionaryStore();
+
+  return (
+    <Button variant="contained" onClick={dictionaryStore.createDictionary}>
+      Создать
+    </Button>
+  );
 };

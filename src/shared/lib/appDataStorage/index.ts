@@ -1,4 +1,6 @@
-import { DictionaryDto } from '../../api';
+import { DictionaryDto, DictionaryDtoForCreation } from '../../api';
+import { getUniqueId } from '../utils/generate/generate-utils';
+import { cloneDeep } from 'lodash';
 
 const STORAGE_KEYS_PREFIX = '@engLearnApp_';
 
@@ -34,6 +36,34 @@ export class AppDataStorage {
     }
 
     return dictionaries;
+  }
+
+  public createDictionary(newDictionary: DictionaryDtoForCreation): void {
+    if (!newDictionary.title) {
+      throw new Error('Не заполнено название словаря');
+    }
+
+    const dictionaries: DictionaryDto[] = this.getDictionaries();
+    const dictionaryForSave = { ...cloneDeep(newDictionary), id: getUniqueId() };
+
+    const addDictionary = () => {
+      dictionaries.push(dictionaryForSave);
+      this.setDictionaries(dictionaries);
+    };
+
+    if (!dictionaries.length) {
+      addDictionary();
+      return;
+    }
+
+    const sameDictionary = dictionaries.find((i) => i.title === newDictionary.title);
+
+    if (!sameDictionary) {
+      addDictionary();
+      return;
+    }
+
+    throw new Error('Такой словарь уже существует');
   }
 
   public setDictionaries(dictionaries: DictionaryDto[]): void {

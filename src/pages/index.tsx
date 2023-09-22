@@ -6,7 +6,7 @@ import { DictionaryDetailPageEdit } from './dictionaryDetailEdit';
 import { DictionaryDetailPageLearn } from './dictionaryDetailLearn';
 
 export const RootPage: FC = () => {
-  const [routerState, setRouterState] = useState<AppRoute>({ pageId: 'dictionaryPreviewList' });
+  const [routerState, setRouterState] = useState<AppRoute>({ pageId: 'dictionaryDetailCreate' });
 
   useEffect(() => {
     appEventEmitter.addListener('router:goToPage', setRouterState);
