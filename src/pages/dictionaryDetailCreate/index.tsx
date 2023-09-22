@@ -1,14 +1,23 @@
-import { FC } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { AppGrid as Grid, PageContainer } from '../../shared/ui';
-import { TermFormList } from '../../entities/term';
 import {
   AddTermFormToDictionary,
   ChangeDictionaryTitleOnCreationPage,
   CreateDictionaryOnCreationPage,
   GoToDictionaryPreviewListPage,
 } from '../../features/dictionary';
+import { ShowEditableDictionaryTerms } from '../../features/dictionary/showDictionaryTerms';
+import { useDictionaryStore } from '../../entities/dictionary';
 
 export const DictionaryDetailPageCreate: FC = () => {
+  const dictionaryStore = useDictionaryStore();
+  const dictionaryStoreRef = useRef(dictionaryStore);
+  const terms = useDictionaryStore((state) => state.itemForCreating.terms);
+
+  useEffect(() => {
+    dictionaryStoreRef.current.getPreviewItems();
+  }, []);
+
   return (
     <PageContainer>
       <Grid container spacing={2}>
@@ -31,7 +40,7 @@ export const DictionaryDetailPageCreate: FC = () => {
         </Grid>
       </Grid>
 
-      <TermFormList />
+      <ShowEditableDictionaryTerms mode={'dictionaryCreate'} items={terms} />
 
       <Grid container spacing={2}>
         <Grid>

@@ -1,2 +1,1 @@
-export { TermFormList } from './TermFormList/TermFormList';
-export { TermFormListItem } from './TermFormListItem/TermFormListItem';
+export { TermForm, Props as TermFormProps } from './TermForm/TermForm';
