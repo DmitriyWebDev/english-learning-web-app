@@ -1,7 +1,6 @@
 import { FC, useEffect, useRef } from 'react';
 import { DictionaryPreviewList, useDictionaryStore } from '../../entities/dictionary';
-import Grid from '@mui/material/Unstable_Grid2';
-import { PageContainer } from '../../shared/ui';
+import { PageContainer, AppGrid as Grid } from '../../shared/ui';
 import { GoToDictionaryDetailCreatePage } from '../../features/dictionary';
 
 export const DictionaryPreviewListPage: FC = () => {

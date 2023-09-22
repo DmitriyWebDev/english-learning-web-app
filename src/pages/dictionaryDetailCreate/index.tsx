@@ -1,6 +1,5 @@
 import { FC } from 'react';
-import Grid from '@mui/material/Unstable_Grid2';
-import { PageContainer } from '../../shared/ui';
+import { AppGrid as Grid, PageContainer } from '../../shared/ui';
 import { TermFormList } from '../../entities/term';
 import {
   AddTermFormToDictionary,

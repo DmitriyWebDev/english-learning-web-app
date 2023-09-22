@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { TermFormListItem } from '../TermFormListItem/TermFormListItem';
-import Grid from '@mui/material/Unstable_Grid2';
+import { AppGrid as Grid } from '../../../../shared/ui';
 
 export type Props = {
   //

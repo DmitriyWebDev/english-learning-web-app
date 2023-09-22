@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Grid from '@mui/material/Unstable_Grid2';
+import { AppGrid as Grid } from '../../../../shared/ui';
 // import { termFormListItemStyles as styled } from './styles';
 import { TextField } from '@mui/material';
 

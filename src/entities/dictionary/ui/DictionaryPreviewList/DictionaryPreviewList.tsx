@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react';
 import { DictionaryPreviewListItem } from '../DictionaryPreviewListItem/DictionaryPreviewListItem';
 import { routerApi } from '../../../../shared/lib';
-import Grid from '@mui/material/Unstable_Grid2';
+import { AppGrid as Grid } from '../../../../shared/ui';
 import { DictionaryPreviewDto } from '../../../../shared/api';
 
 const { goToDictionaryDetailLearnPage } = routerApi;
