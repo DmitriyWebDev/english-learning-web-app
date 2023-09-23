@@ -9,6 +9,7 @@ import {
 } from '../../../shared/api';
 import omit from 'lodash/omit';
 import cloneDeep from 'lodash/cloneDeep';
+import { routerApi } from '../../../shared/lib';
 
 type DictionaryStore = DictionaryStoreState & DictionaryStoreActions;
 
@@ -85,6 +86,8 @@ export const useDictionaryStore = create<DictionaryStore>()((set, getState) => (
 
   createDictionary: async () => {
     await createDictionaryApi(getState().itemForCreating);
+
+    routerApi.goToDictionaryPreviewListPage();
   },
 
   changeDictionaryTermValue: (data, isForNewDictionary) => {
