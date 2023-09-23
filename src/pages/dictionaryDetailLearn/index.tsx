@@ -2,8 +2,13 @@ import { FC } from 'react';
 import { PageContainer, AppGrid as Grid } from '../../shared/ui';
 import { GoToDictionaryPreviewListPage } from '../../features/dictionary';
 import { GoToDictionaryDetailEditPage } from '../../features/dictionary/goToDictionaryDetailEditPage';
+import { DictionaryDto } from '../../shared/api';
 
-export const DictionaryDetailPageLearn: FC = () => {
+type Props = {
+  dictionaryId: DictionaryDto['id'];
+};
+
+export const DictionaryDetailPageLearn: FC<Props> = ({ dictionaryId }: Props) => {
   return (
     <PageContainer>
       <Grid container spacing={2} alignItems={'center'} justifyContent={'space-between'}>
@@ -12,7 +17,7 @@ export const DictionaryDetailPageLearn: FC = () => {
         </Grid>
 
         <Grid xs={'auto'}>
-          <GoToDictionaryDetailEditPage id={'1'} text={'Редактировать'} />
+          <GoToDictionaryDetailEditPage id={dictionaryId} text={'Редактировать'} />
         </Grid>
       </Grid>
     </PageContainer>

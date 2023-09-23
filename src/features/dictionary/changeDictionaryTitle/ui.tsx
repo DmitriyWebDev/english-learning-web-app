@@ -17,3 +17,19 @@ export const ChangeDictionaryTitleOnCreationPage: FC = () => {
     />
   );
 };
+
+export const ChangeDictionaryTitleOnEditingPage: FC = () => {
+  const dictionaryStore = useDictionaryStore();
+
+  return (
+    <TextField
+      id="btn_createDictionary"
+      label="Название словаря"
+      variant="outlined"
+      value={dictionaryStore.itemForUpdating.title}
+      onChange={(event) => {
+        dictionaryStore.changeUpdatingDictionaryTitle(event.target.value);
+      }}
+    />
+  );
+};
