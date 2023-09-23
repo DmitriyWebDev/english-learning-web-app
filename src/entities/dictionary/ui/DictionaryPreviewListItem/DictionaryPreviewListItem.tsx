@@ -39,8 +39,6 @@ export const DictionaryPreviewListItem: FC<Props> = ({ id, title, onClick }: Pro
           {!isDeletingConfirmed && (
             <div
               onClick={() => {
-                console.log(111);
-
                 setIsDeletingConfirmed(true);
               }}
               style={{
