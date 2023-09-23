@@ -9,6 +9,8 @@ import {
 import { ShowEditableDictionaryTerms } from '../../features/dictionary/showDictionaryTerms';
 import { useDictionaryStore } from '../../entities/dictionary';
 
+const pageMode = 'dictionaryCreate';
+
 export const DictionaryDetailPageCreate: FC = () => {
   const dictionaryStore = useDictionaryStore();
   const dictionaryStoreRef = useRef(dictionaryStore);
@@ -40,11 +42,11 @@ export const DictionaryDetailPageCreate: FC = () => {
         </Grid>
       </Grid>
 
-      <ShowEditableDictionaryTerms mode={'dictionaryCreate'} items={terms} />
+      <ShowEditableDictionaryTerms mode={pageMode} items={terms} />
 
       <Grid container spacing={2}>
         <Grid>
-          <AddTermFormToDictionary />
+          <AddTermFormToDictionary mode={pageMode} />
         </Grid>
       </Grid>
 

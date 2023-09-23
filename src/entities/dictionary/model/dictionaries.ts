@@ -30,6 +30,7 @@ type DictionaryStoreActions = {
     data: Pick<DictionaryTermDto, 'orderNumber' | 'valueTranslated'>,
     isForNewDictionary: boolean,
   ) => void;
+  addEmptyTermToDictionary: (isForNewDictionary: boolean) => void;
 };
 
 const emptyDictionary: DictionaryDto = {
@@ -38,15 +39,20 @@ const emptyDictionary: DictionaryDto = {
   terms: [],
 };
 
+const emptyDictionaryTerm: DictionaryDto['terms'][number] = {
+  orderNumber: 1,
+  value: '',
+  valueTranslated: '',
+};
+
 const initialState: DictionaryStoreState = {
   previewItems: [],
   itemForCreating: {
     ...omit(cloneDeep(emptyDictionary), 'id'),
     terms: [
       {
+        ...emptyDictionaryTerm,
         orderNumber: 1,
-        value: '',
-        valueTranslated: '',
       },
     ],
   },
@@ -132,6 +138,36 @@ export const useDictionaryStore = create<DictionaryStore>()((set, getState) => (
                 ...data,
               };
             }),
+          ],
+        },
+      };
+    });
+  },
+
+  addEmptyTermToDictionary: (isForNewDictionary) => {
+    set((state) => {
+      const targetDictionaryKey = isForNewDictionary ? 'itemForCreating' : 'itemForUpdating';
+      const targetDictionary = state[targetDictionaryKey];
+      const targetDictionaryTerms = targetDictionary.terms;
+
+      let maxTermOrderNumber = 1;
+
+      for (const { orderNumber } of targetDictionaryTerms) {
+        if (orderNumber > maxTermOrderNumber) {
+          maxTermOrderNumber = orderNumber;
+        }
+      }
+
+      return {
+        ...state,
+        [targetDictionaryKey]: {
+          ...targetDictionary,
+          terms: [
+            ...targetDictionary.terms,
+            {
+              ...emptyDictionaryTerm,
+              orderNumber: maxTermOrderNumber + 1,
+            },
           ],
         },
       };
