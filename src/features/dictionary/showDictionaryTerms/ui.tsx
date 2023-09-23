@@ -1,8 +1,8 @@
 import { FC, useCallback, useRef } from 'react';
-import { AppGrid as Grid } from '../../../shared/ui';
 import { TermForm, TermFormProps } from '../../../entities/term';
 import { DictionaryDto } from '../../../shared/api';
 import { useDictionaryStore } from '../../../entities/dictionary';
+import { Box } from '@mui/material';
 
 type Props = {
   mode: 'dictionaryCreate' | 'dictionaryUpdate';
@@ -28,16 +28,28 @@ export const ShowEditableDictionaryTerms: FC<Props> = ({ items, mode }: Props) =
     [isForNewDictionary],
   );
 
+  const handleDeleteTerm = useCallback(
+    ({ orderNumber }: Parameters<TermFormProps['onDeleteTerm']>[0]) => {
+      dictionaryStoreRef.current.deleteTermFromDictionary({ orderNumber, isForNewDictionary });
+    },
+    [isForNewDictionary],
+  );
+
   return (
-    <Grid container direction={{ xs: 'row' }} rowSpacing={{ xs: 2 }} justifyContent={'space-between'} margin={'15px 0'}>
+    <Box
+      sx={{
+        margin: '15px 0',
+      }}
+    >
       {items.map((termData) => (
         <TermForm
           key={termData.orderNumber}
           termData={termData}
           onChangeValue={handleChangeTermValue}
           onChangeValueTranslated={handleChangeTermValueTranslated}
+          onDeleteTerm={handleDeleteTerm}
         />
       ))}
-    </Grid>
+    </Box>
   );
 };

@@ -31,6 +31,11 @@ type DictionaryStoreActions = {
     isForNewDictionary: boolean,
   ) => void;
   addEmptyTermToDictionary: (isForNewDictionary: boolean) => void;
+  deleteTermFromDictionary: (
+    data: Pick<DictionaryTermDto, 'orderNumber'> & {
+      isForNewDictionary: boolean;
+    },
+  ) => void;
 };
 
 const emptyDictionary: DictionaryDto = {
@@ -169,6 +174,44 @@ export const useDictionaryStore = create<DictionaryStore>()((set, getState) => (
               orderNumber: maxTermOrderNumber + 1,
             },
           ],
+        },
+      };
+    });
+  },
+
+  deleteTermFromDictionary: ({ isForNewDictionary, orderNumber: deletedOrderNumber }) => {
+    set((state) => {
+      const targetDictionaryKey = isForNewDictionary ? 'itemForCreating' : 'itemForUpdating';
+      const targetDictionary = state[targetDictionaryKey];
+      const targetDictionaryTerms = targetDictionary.terms;
+
+      if (targetDictionaryTerms.length === 1) {
+        throw new Error('Нельзя удалить последний термин словаря');
+      }
+
+      const targetIndex = targetDictionaryTerms.findIndex((i) => i.orderNumber === deletedOrderNumber);
+
+      if (targetIndex < 0) {
+        throw new Error('Термин для удаления не найден');
+      }
+
+      const newTerms = [
+        ...[...targetDictionaryTerms.slice(0, targetIndex), ...targetDictionaryTerms.slice(targetIndex + 1)].map(
+          (item) => {
+            if (item.orderNumber > deletedOrderNumber) {
+              return { ...item, orderNumber: item.orderNumber - 1 };
+            }
+
+            return item;
+          },
+        ),
+      ];
+
+      return {
+        ...state,
+        [targetDictionaryKey]: {
+          ...targetDictionary,
+          terms: [...newTerms],
         },
       };
     });
