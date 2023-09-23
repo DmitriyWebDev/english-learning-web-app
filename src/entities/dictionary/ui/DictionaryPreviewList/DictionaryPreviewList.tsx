@@ -1,23 +1,20 @@
-import { FC, ReactNode, useEffect, useRef } from 'react';
+import { FC, ReactNode } from 'react';
 import { DictionaryPreviewListItem } from '../DictionaryPreviewListItem/DictionaryPreviewListItem';
 import { routerApi } from '../../../../shared/lib';
-import Grid from '@mui/material/Unstable_Grid2';
-import { useDictionaryStore } from '../../model';
+import { AppGrid as Grid } from '../../../../shared/ui';
+import { DictionaryPreviewDto } from '../../../../shared/api';
 
 const { goToDictionaryDetailLearnPage } = routerApi;
 
-export const DictionaryPreviewList: FC = () => {
-  const dictionaryStore = useDictionaryStore();
-  const dictionaryStoreRef = useRef(dictionaryStore);
+type Props = {
+  items: DictionaryPreviewDto[];
+};
 
-  useEffect(() => {
-    dictionaryStoreRef.current.getPreviewItems();
-  }, []);
-
+export const DictionaryPreviewList: FC<Props> = ({ items }: Props) => {
   let render: ReactNode = <Grid xs={'auto'}>Словарей не найдено. Создайте свой первый словарь.</Grid>;
 
-  if (Array.isArray(dictionaryStore.previewItems) && dictionaryStore.previewItems.length > 0) {
-    render = dictionaryStore.previewItems.map(({ id, title }) => (
+  if (Array.isArray(items) && items.length > 0) {
+    render = items.map(({ id, title }) => (
       <DictionaryPreviewListItem key={id} id={id} title={title} onClick={goToDictionaryDetailLearnPage} />
     ));
   }

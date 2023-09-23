@@ -1,15 +1,25 @@
-import { FC } from 'react';
-import Grid from '@mui/material/Unstable_Grid2';
-import { PageContainer } from '../../shared/ui';
-import { TermFormList } from '../../entities/term';
+import { FC, useEffect, useRef } from 'react';
+import { AppGrid as Grid, PageContainer } from '../../shared/ui';
 import {
   AddTermFormToDictionary,
-  ChangeDictionaryTitle,
-  CreateDictionary,
+  ChangeDictionaryTitleOnCreationPage,
+  CreateDictionaryOnCreationPage,
   GoToDictionaryPreviewListPage,
 } from '../../features/dictionary';
+import { ShowEditableDictionaryTerms } from '../../features/dictionary/showDictionaryTerms';
+import { useDictionaryStore } from '../../entities/dictionary';
+
+const pageMode = 'dictionaryCreate';
 
 export const DictionaryDetailPageCreate: FC = () => {
+  const dictionaryStore = useDictionaryStore();
+  const dictionaryStoreRef = useRef(dictionaryStore);
+  const terms = useDictionaryStore((state) => state.itemForCreating.terms);
+
+  useEffect(() => {
+    dictionaryStoreRef.current.getPreviewItems();
+  }, []);
+
   return (
     <PageContainer>
       <Grid container spacing={2}>
@@ -22,27 +32,27 @@ export const DictionaryDetailPageCreate: FC = () => {
         <Grid xs={10}>Создать новый словарь</Grid>
 
         <Grid xs={'auto'}>
-          <CreateDictionary />
+          <CreateDictionaryOnCreationPage />
         </Grid>
       </Grid>
 
       <Grid container spacing={2}>
         <Grid>
-          <ChangeDictionaryTitle />
+          <ChangeDictionaryTitleOnCreationPage />
         </Grid>
       </Grid>
 
-      <TermFormList />
+      <ShowEditableDictionaryTerms mode={pageMode} items={terms} />
 
       <Grid container spacing={2}>
         <Grid>
-          <AddTermFormToDictionary />
+          <AddTermFormToDictionary mode={pageMode} />
         </Grid>
       </Grid>
 
       <Grid container spacing={2}>
         <Grid>
-          <CreateDictionary />
+          <CreateDictionaryOnCreationPage />
         </Grid>
       </Grid>
     </PageContainer>

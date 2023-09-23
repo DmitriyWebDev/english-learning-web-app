@@ -1,8 +1,7 @@
 import { FC } from 'react';
-import { PageContainer } from '../../shared/ui';
-import Grid from '@mui/material/Unstable_Grid2';
+import { PageContainer, AppGrid as Grid } from '../../shared/ui';
 import { GoToDictionaryPreviewListPage } from '../../features/dictionary';
-import { GoToDictionaryDetailEditPage } from '../../features/dictionary/goToDictionaryDetailEditPage/ui';
+import { GoToDictionaryDetailEditPage } from '../../features/dictionary/goToDictionaryDetailEditPage';
 
 export const DictionaryDetailPageLearn: FC = () => {
   return (

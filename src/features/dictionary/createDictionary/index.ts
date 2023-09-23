@@ -1,1 +1,1 @@
-export { CreateDictionary } from './ui';
+export { CreateDictionaryOnCreationPage } from './ui';

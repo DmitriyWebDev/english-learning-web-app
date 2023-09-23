@@ -1,0 +1,1 @@
+export { ShowEditableDictionaryTerms } from './ui';

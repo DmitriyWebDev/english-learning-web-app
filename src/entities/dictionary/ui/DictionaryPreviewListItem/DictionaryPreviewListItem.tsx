@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Grid from '@mui/material/Unstable_Grid2';
+import { AppGrid as Grid } from '../../../../shared/ui';
 import { dictionaryPreviewListStyles as styled } from './styles';
 
 export type Props = {

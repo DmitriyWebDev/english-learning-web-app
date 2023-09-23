@@ -1,10 +1,16 @@
-import { FC } from 'react';
-import { DictionaryPreviewList } from '../../entities/dictionary';
-import Grid from '@mui/material/Unstable_Grid2';
-import { PageContainer } from '../../shared/ui';
+import { FC, useEffect, useRef } from 'react';
+import { DictionaryPreviewList, useDictionaryStore } from '../../entities/dictionary';
+import { PageContainer, AppGrid as Grid } from '../../shared/ui';
 import { GoToDictionaryDetailCreatePage } from '../../features/dictionary';
 
 export const DictionaryPreviewListPage: FC = () => {
+  const dictionaryStore = useDictionaryStore();
+  const dictionaryStoreRef = useRef(dictionaryStore);
+
+  useEffect(() => {
+    dictionaryStoreRef.current.getPreviewItems();
+  }, []);
+
   return (
     <PageContainer>
       <Grid container spacing={2}>
@@ -15,7 +21,7 @@ export const DictionaryPreviewListPage: FC = () => {
         </Grid>
       </Grid>
 
-      <DictionaryPreviewList />
+      <DictionaryPreviewList items={dictionaryStore.previewItems} />
     </PageContainer>
   );
 };
