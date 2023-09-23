@@ -23,9 +23,9 @@ export const RootPage: FC = () => {
       case 'dictionaryDetailCreate':
         return <DictionaryDetailPageCreate />;
       case 'dictionaryDetailEdit':
-        return <DictionaryDetailPageEdit />;
+        return <DictionaryDetailPageEdit dictionaryId={routerState.payload.dictionaryId} />;
       case 'dictionaryDetailLearn':
-        return <DictionaryDetailPageLearn />;
+        return <DictionaryDetailPageLearn dictionaryId={routerState.payload.dictionaryId} />;
       default:
         return <DictionaryPreviewListPage />;
     }

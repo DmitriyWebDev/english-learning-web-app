@@ -22,6 +22,17 @@ export class AppDataStorage {
     return this.instance;
   }
 
+  public getDictionary(id: DictionaryDto['id']): DictionaryDto {
+    const dictionaries: DictionaryDto[] = this.getDictionaries();
+    const targetDictionary = dictionaries.find((i) => i.id === id);
+
+    if (!targetDictionary) {
+      throw new Error(`Словарь с id - ${id} не найден`);
+    }
+
+    return targetDictionary;
+  }
+
   public getDictionaries(): DictionaryDto[] {
     let dictionaries: DictionaryDto[] = [];
 
@@ -64,6 +75,19 @@ export class AppDataStorage {
     }
 
     throw new Error('Такой словарь уже существует');
+  }
+
+  public updateDictionary(updatedDictionary: DictionaryDto): void {
+    const dictionaries: DictionaryDto[] = this.getDictionaries();
+    const targetIndex = dictionaries.findIndex((i) => i.id === updatedDictionary.id);
+
+    if (targetIndex < 0) {
+      throw new Error('Не найден словарь для обновления');
+    }
+
+    dictionaries[targetIndex] = updatedDictionary;
+
+    this.setDictionaries(dictionaries);
   }
 
   public setDictionaries(dictionaries: DictionaryDto[]): void {

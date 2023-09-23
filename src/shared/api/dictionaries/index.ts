@@ -1,4 +1,4 @@
-import { DictionaryDtoForCreation, DictionaryPreviewDto } from './models';
+import { DictionaryDto, DictionaryDtoForCreation, DictionaryPreviewDto } from './models';
 import { AppDataStorage } from '../../lib/appDataStorage';
 
 // const dictionariesPreviewList: DictionaryPreviewDto[] = [
@@ -46,4 +46,14 @@ export const getDictionariesPreviewList = async () =>
 export const createDictionary = async (data: DictionaryDtoForCreation) =>
   new Promise<void>((resolve) => {
     resolve(storage.createDictionary(data));
+  });
+
+export const updateDictionary = async (data: DictionaryDto) =>
+  new Promise<void>((resolve) => {
+    resolve(storage.updateDictionary(data));
+  });
+
+export const getDictionaryForEdit = async (id: DictionaryDto['id']) =>
+  new Promise<DictionaryPreviewDto>((resolve) => {
+    resolve(storage.getDictionary(id));
   });

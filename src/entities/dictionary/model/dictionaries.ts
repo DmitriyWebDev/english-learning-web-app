@@ -5,6 +5,8 @@ import {
   DictionaryPreviewDto,
   getDictionariesPreviewList as getDictionariesPreviewListApi,
   createDictionary as createDictionaryApi,
+  updateDictionary as updateDictionaryApi,
+  getDictionaryForEdit as getDictionaryForEditApi,
   DictionaryTermDto,
 } from '../../../shared/api';
 import omit from 'lodash/omit';
@@ -21,8 +23,11 @@ type DictionaryStoreState = {
 
 type DictionaryStoreActions = {
   getPreviewItems: () => void;
+  getItemForEdit: (id: DictionaryDto['id']) => void;
   changeCreatingDictionaryTitle: (title: string) => void;
+  changeUpdatingDictionaryTitle: (title: string) => void;
   createDictionary: () => void;
+  updateDictionary: () => void;
   changeDictionaryTermValue: (
     data: Pick<DictionaryTermDto, 'orderNumber' | 'value'>,
     isForNewDictionary: boolean,
@@ -74,6 +79,10 @@ export const useDictionaryStore = create<DictionaryStore>()((set, getState) => (
     set({ previewItems: await getDictionariesPreviewListApi() });
   },
 
+  getItemForEdit: async (id) => {
+    set({ itemForUpdating: await getDictionaryForEditApi(id) });
+  },
+
   changeCreatingDictionaryTitle: (title: string) => {
     set((state) => ({
       ...state,
@@ -84,10 +93,30 @@ export const useDictionaryStore = create<DictionaryStore>()((set, getState) => (
     }));
   },
 
+  changeUpdatingDictionaryTitle: (title: string) => {
+    set((state) => ({
+      ...state,
+      itemForUpdating: {
+        ...state.itemForUpdating,
+        title,
+      },
+    }));
+  },
+
   createDictionary: async () => {
     await createDictionaryApi(getState().itemForCreating);
 
     routerApi.goToDictionaryPreviewListPage();
+
+    set(initialState);
+  },
+
+  updateDictionary: async () => {
+    await updateDictionaryApi(getState().itemForUpdating);
+
+    routerApi.goToDictionaryPreviewListPage();
+
+    set(initialState);
   },
 
   changeDictionaryTermValue: (data, isForNewDictionary) => {

@@ -11,3 +11,13 @@ export const CreateDictionaryOnCreationPage: FC = () => {
     </Button>
   );
 };
+
+export const SaveDictionaryOnEditingPage: FC = () => {
+  const dictionaryStore = useDictionaryStore();
+
+  return (
+    <Button variant="contained" onClick={dictionaryStore.updateDictionary}>
+      Сохранить
+    </Button>
+  );
+};
