@@ -53,6 +53,11 @@ export const updateDictionary = async (data: DictionaryDto) =>
     resolve(storage.updateDictionary(data));
   });
 
+export const deleteDictionary = async (id: DictionaryDto['id']) =>
+  new Promise<void>((resolve) => {
+    resolve(storage.deleteDictionary(id));
+  });
+
 export const getDictionaryForEdit = async (id: DictionaryDto['id']) =>
   new Promise<DictionaryPreviewDto>((resolve) => {
     resolve(storage.getDictionary(id));

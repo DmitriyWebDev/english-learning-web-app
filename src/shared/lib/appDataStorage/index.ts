@@ -90,6 +90,19 @@ export class AppDataStorage {
     this.setDictionaries(dictionaries);
   }
 
+  public deleteDictionary(id: DictionaryDto['id']): void {
+    const dictionaries: DictionaryDto[] = this.getDictionaries();
+    const targetIndex = dictionaries.findIndex((i) => i.id === id);
+
+    if (targetIndex < 0) {
+      throw new Error('Не найден словарь для удаления');
+    }
+
+    dictionaries.splice(targetIndex, 1);
+
+    this.setDictionaries(dictionaries);
+  }
+
   public setDictionaries(dictionaries: DictionaryDto[]): void {
     try {
       localStorage.setItem(STORAGE_KEYS_MAP.dictionaries, JSON.stringify(dictionaries));

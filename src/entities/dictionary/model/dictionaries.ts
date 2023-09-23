@@ -7,6 +7,7 @@ import {
   createDictionary as createDictionaryApi,
   updateDictionary as updateDictionaryApi,
   getDictionaryForEdit as getDictionaryForEditApi,
+  deleteDictionary as deleteDictionaryApi,
   DictionaryTermDto,
 } from '../../../shared/api';
 import omit from 'lodash/omit';
@@ -28,6 +29,8 @@ type DictionaryStoreActions = {
   changeUpdatingDictionaryTitle: (title: string) => void;
   createDictionary: () => void;
   updateDictionary: () => void;
+  deleteDictionaryOnPreviewListPage: (id: DictionaryDto['id']) => void;
+  deleteDictionaryOnEditPage: (id: DictionaryDto['id']) => void;
   changeDictionaryTermValue: (
     data: Pick<DictionaryTermDto, 'orderNumber' | 'value'>,
     isForNewDictionary: boolean,
@@ -113,6 +116,21 @@ export const useDictionaryStore = create<DictionaryStore>()((set, getState) => (
 
   updateDictionary: async () => {
     await updateDictionaryApi(getState().itemForUpdating);
+
+    routerApi.goToDictionaryPreviewListPage();
+
+    set(initialState);
+  },
+
+  deleteDictionaryOnPreviewListPage: async (id) => {
+    await deleteDictionaryApi(id);
+
+    // TODO Refactoring. Reuse "getPreviewItems()" action logic.
+    set({ previewItems: await getDictionariesPreviewListApi() });
+  },
+
+  deleteDictionaryOnEditPage: async (id) => {
+    await deleteDictionaryApi(id);
 
     routerApi.goToDictionaryPreviewListPage();
 
