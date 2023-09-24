@@ -4,7 +4,7 @@ import { useDictionaryStore } from '../../entities/dictionary';
 import { AppGrid as Grid, PageContainer } from '../../shared/ui';
 import { AddTermFormToDictionary, GoToDictionaryPreviewListPage } from '../../features/dictionary';
 import { ShowEditableDictionaryTerms } from '../../features/dictionary/showDictionaryTerms';
-import { SaveDictionaryOnEditingPage } from '../../features/dictionary/createDictionary';
+import { SaveDictionaryOnEditingPage } from '../../features/dictionary';
 import { ChangeDictionaryTitleOnEditingPage } from '../../features/dictionary/changeDictionaryTitle';
 
 type Props = {

@@ -1,0 +1,1 @@
+export { OpenDictionary } from './ui';
