@@ -33,3 +33,17 @@ export const ChangeDictionaryTitleOnEditingPage: FC = () => {
     />
   );
 };
+
+export const ShowDictionaryTitleOnLearningPage: FC = () => {
+  const dictionaryStore = useDictionaryStore();
+
+  return (
+    <TextField
+      id="btn_createDictionary"
+      label="Название словаря"
+      variant="outlined"
+      value={dictionaryStore.itemForUpdating.title}
+      disabled
+    />
+  );
+};

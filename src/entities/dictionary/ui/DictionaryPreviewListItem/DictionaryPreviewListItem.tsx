@@ -11,6 +11,8 @@ export type Props = {
   onClick: (id: string) => void;
 };
 
+// TODO Refactoring by FSD
+
 export const DictionaryPreviewListItem: FC<Props> = ({ id, title, onClick }: Props) => {
   const [isDeletingConfirmed, setIsDeletingConfirmed] = useState(false);
 

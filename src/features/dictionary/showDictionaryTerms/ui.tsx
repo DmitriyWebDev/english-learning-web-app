@@ -1,5 +1,5 @@
 import { FC, useCallback, useRef } from 'react';
-import { TermForm, TermFormProps } from '../../../entities/term';
+import { TermForm, TermFormProps, TermReadOnlyCard } from '../../../entities/term';
 import { DictionaryDto } from '../../../shared/api';
 import { useDictionaryStore } from '../../../entities/dictionary';
 import { Box } from '@mui/material';
@@ -51,5 +51,29 @@ export const ShowEditableDictionaryTerms: FC<Props> = ({ items, mode }: Props) =
         />
       ))}
     </Box>
+  );
+};
+
+export const ShowReadOnlyDictionaryTerms: FC<Pick<Props, 'items'>> = ({ items }) => {
+  return (
+    <>
+      <Box
+        sx={{
+          margin: '15px 0',
+        }}
+      >
+        Список терминов
+      </Box>
+
+      <Box
+        sx={{
+          margin: '15px 0',
+        }}
+      >
+        {items.map((termData) => (
+          <TermReadOnlyCard key={termData.orderNumber} termData={termData} />
+        ))}
+      </Box>
+    </>
   );
 };
