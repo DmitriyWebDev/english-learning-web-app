@@ -1,7 +1,14 @@
-import { FC, useEffect, useRef } from 'react';
-import { DictionaryPreviewList, useDictionaryStore } from '../../entities/dictionary';
+import { FC, ReactNode, useEffect, useRef } from 'react';
+import { DictionaryPreviewListItem, useDictionaryStore } from '../../entities/dictionary';
 import { PageContainer, AppGrid as Grid } from '../../shared/ui';
 import { GoToDictionaryDetailCreatePage } from '../../features/dictionary';
+import { routerApi } from '../../shared/lib';
+import { DictionaryPreviewDto } from '../../shared/api';
+import { GoToDictionaryDetailEditPage } from '../../features/dictionary/goToDictionaryDetailEditPage';
+import { OpenDictionary } from '../../features/dictionary/openDictionary';
+import { DeleteDictionaryOnPreviewListPage } from '../../features/dictionary/deleteDictionary';
+
+const { goToDictionaryDetailLearnPage } = routerApi;
 
 export const DictionaryPreviewListPage: FC = () => {
   const dictionaryStore = useDictionaryStore();
@@ -25,3 +32,31 @@ export const DictionaryPreviewListPage: FC = () => {
     </PageContainer>
   );
 };
+
+type DictionaryPreviewListProps = {
+  items: DictionaryPreviewDto[];
+};
+
+export function DictionaryPreviewList({ items }: DictionaryPreviewListProps) {
+  let render: ReactNode = <Grid xs={'auto'}>Словарей не найдено. Создайте свой первый словарь.</Grid>;
+
+  if (Array.isArray(items) && items.length > 0) {
+    render = items.map(({ id, title }) => (
+      <DictionaryPreviewListItem
+        key={id}
+        id={id}
+        title={title}
+        onClick={goToDictionaryDetailLearnPage}
+        editButton={<GoToDictionaryDetailEditPage id={id} text={'Редактировать'} />}
+        openButton={<OpenDictionary id={id} text={'Открыть'} />}
+        deleteButton={<DeleteDictionaryOnPreviewListPage id={id} />}
+      />
+    ));
+  }
+
+  return (
+    <Grid container spacing={2}>
+      {render}
+    </Grid>
+  );
+}

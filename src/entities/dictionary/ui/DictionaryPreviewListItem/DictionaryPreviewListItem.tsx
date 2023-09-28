@@ -1,19 +1,24 @@
-import { FC, useState } from 'react';
+import { FC, ReactNode, useState } from 'react';
 import { AppGrid as Grid } from '../../../../shared/ui';
 import { dictionaryPreviewListStyles as styled } from './styles';
-import { DeleteDictionaryOnPreviewListPage } from '../../../../features/dictionary/deleteDictionary';
-import { GoToDictionaryDetailEditPage } from '../../../../features/dictionary/goToDictionaryDetailEditPage';
-import { OpenDictionary } from '../../../../features/dictionary/openDictionary';
 
 export type Props = {
   id: string;
   title: string;
   onClick: (id: string) => void;
+  editButton: ReactNode;
+  openButton: ReactNode;
+  deleteButton: ReactNode;
 };
 
-// TODO Refactoring by FSD
-
-export const DictionaryPreviewListItem: FC<Props> = ({ id, title, onClick }: Props) => {
+export const DictionaryPreviewListItem: FC<Props> = ({
+  id,
+  title,
+  onClick,
+  editButton,
+  openButton,
+  deleteButton,
+}: Props) => {
   const [isDeletingConfirmed, setIsDeletingConfirmed] = useState(false);
 
   return (
@@ -23,13 +28,9 @@ export const DictionaryPreviewListItem: FC<Props> = ({ id, title, onClick }: Pro
           {title}
         </div>
 
-        <div style={{ marginBottom: '10px' }}>
-          <GoToDictionaryDetailEditPage id={id} text={'Редактировать'} />
-        </div>
+        <div style={{ marginBottom: '10px' }}>{editButton}</div>
 
-        <div style={{ marginBottom: '10px' }}>
-          <OpenDictionary id={id} text={'Открыть'} />
-        </div>
+        <div style={{ marginBottom: '10px' }}>{openButton}</div>
 
         <div
           style={{
@@ -56,7 +57,7 @@ export const DictionaryPreviewListItem: FC<Props> = ({ id, title, onClick }: Pro
             />
           )}
 
-          <DeleteDictionaryOnPreviewListPage id={id} />
+          {deleteButton}
         </div>
       </styled.Item>
     </Grid>
