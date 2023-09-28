@@ -75,11 +75,15 @@ const initialState: DictionaryStoreState = {
   },
 };
 
+const getPreviewItemsUtil = async (set: (data: Partial<DictionaryStore>) => void) => {
+  set({ previewItems: await getDictionariesPreviewListApi() });
+};
+
 export const useDictionaryStore = create<DictionaryStore>()((set, getState) => ({
   ...initialState,
 
   getPreviewItems: async () => {
-    set({ previewItems: await getDictionariesPreviewListApi() });
+    await getPreviewItemsUtil(set);
   },
 
   getItemForEdit: async (id) => {
@@ -125,8 +129,7 @@ export const useDictionaryStore = create<DictionaryStore>()((set, getState) => (
   deleteDictionaryOnPreviewListPage: async (id) => {
     await deleteDictionaryApi(id);
 
-    // TODO Refactoring. Reuse "getPreviewItems()" action logic.
-    set({ previewItems: await getDictionariesPreviewListApi() });
+    await getPreviewItemsUtil(set);
   },
 
   deleteDictionaryOnEditPage: async (id) => {
