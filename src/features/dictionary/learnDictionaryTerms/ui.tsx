@@ -1,91 +1,44 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { DictionaryDto } from '../../../shared/api';
 import { Box, Button, TextField } from '@mui/material';
+import {
+  useLearningExerciseTermsMemorizationStore as useStore,
+  learningExerciseTermsMemorizationStoreSelectors as selectors,
+} from '../../../entities/learning';
 
 type Props = {
   items: DictionaryDto['terms'];
   onLearningCompleted: () => void;
 };
 
-type LearningState = {
-  completedTerms: Props['items'];
-  currentTerms: Props['items'];
-  nextTerms: Props['items'];
-  currentTermData: {
-    index: number;
-    valueTranslatedByUser: string;
-  };
-};
-
-const initialLearningState: LearningState = {
-  currentTermData: {
-    index: 0,
-    valueTranslatedByUser: '',
-  },
-  completedTerms: [],
-  currentTerms: [],
-  nextTerms: [],
-};
-
-// TODO Refactoring. Move business logic to store.
-
 export const LearnDictionaryTerms: FC<Props> = ({ items: initialTerms, onLearningCompleted }: Props) => {
-  const [learningState, setLearningState] = useState(initialLearningState);
-  const [shouldShowTermError, setShouldShowTermError] = useState(false);
-  const [shouldShowContinueButton, setShouldShowContinueButton] = useState(false);
+  const store = useStore();
+  const storeRef = useRef(store);
 
-  const completedTermsCount = learningState.completedTerms.length;
-  const allTermsCount = initialTerms.length;
+  const visibleButtonKey = useStore(selectors.visibleButtonKey);
+  const shouldShowTermError = useStore((state) => state.shouldShowTermError);
+
+  const completedTermsCount = useStore((state) => state.completedTerms.length);
+  const allTermsCount = useStore((state) => state.initialTerms.length);
+  const term = useStore(selectors.currentTermOriginalData);
+  const termValueTranslatedByUser = useStore(selectors.currentTermValueTranslatedByUser);
 
   useEffect(() => {
-    setLearningState({ ...initialLearningState, currentTerms: [...initialTerms] });
+    const resetStore = storeRef.current.reset;
+
+    storeRef.current.init(initialTerms);
+
+    return () => {
+      resetStore();
+    };
   }, [initialTerms]);
 
   useEffect(() => {
-    if (completedTermsCount === allTermsCount) onLearningCompleted();
+    if (allTermsCount !== 0 && completedTermsCount === allTermsCount) {
+      onLearningCompleted();
+    }
     // eslint-disable-next-line
   }, [completedTermsCount, allTermsCount]);
-
-  const termIndex = learningState.currentTermData.index;
-  const term = learningState.currentTerms[termIndex];
-  const termValue = learningState.currentTerms[termIndex]?.value ?? '';
-  const termValueTranslated = learningState.currentTerms[termIndex]?.valueTranslated ?? '';
-  const termValueTranslatedByUser = learningState.currentTermData.valueTranslatedByUser ?? '';
-
-  const goToNextTerm = () => {
-    setShouldShowTermError(false);
-
-    const nextItemIndexValue = learningState.currentTermData.index + 1;
-    const shouldRestartCurrentItems = nextItemIndexValue + 1 > learningState.currentTerms.length;
-
-    if (shouldRestartCurrentItems) {
-      setLearningState({
-        ...learningState,
-        currentTermData: {
-          ...initialLearningState.currentTermData,
-        },
-        currentTerms: [...learningState.nextTerms],
-        nextTerms: [],
-        completedTerms: !shouldShowTermError
-          ? [...learningState.completedTerms, { ...term }]
-          : learningState.completedTerms,
-      });
-
-      return;
-    }
-
-    setLearningState({
-      ...learningState,
-      currentTermData: {
-        ...learningState.currentTermData,
-        index: learningState.currentTermData.index + 1,
-        valueTranslatedByUser: '',
-      },
-      completedTerms: !shouldShowTermError
-        ? [...learningState.completedTerms, { ...term }]
-        : learningState.completedTerms,
-    });
-  };
 
   return (
     <Box
@@ -93,64 +46,43 @@ export const LearnDictionaryTerms: FC<Props> = ({ items: initialTerms, onLearnin
         margin: '15px 0',
       }}
     >
-      <div>Термин - {termValue}</div>
+      <div>Перевод термина - {term?.value}</div>
 
       <div>
         Количество изученных терминов {completedTermsCount} из {allTermsCount}
       </div>
 
-      {shouldShowTermError && <div style={{ color: 'red' }}>Ошибка. Правильный ответ - {termValueTranslated}</div>}
+      {shouldShowTermError && <div style={{ color: 'red' }}>Ошибка. Правильный ответ - {term?.valueTranslated}</div>}
 
       <div>
         <TextField
           id="btn_createDictionary"
-          label="Название словаря"
+          label="Введите термин"
           variant="outlined"
           value={termValueTranslatedByUser}
-          onChange={(event) => {
-            setLearningState({
-              ...learningState,
-              currentTermData: {
-                ...learningState.currentTermData,
-                valueTranslatedByUser: event.target.value,
-              },
-            });
+          onChange={(event) => storeRef.current.handleChangeTermTranslationByUser(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') {
+              event.preventDefault();
+
+              const { handleClickOnAnswerButton, handleClickOnContinueButton } = storeRef.current;
+              const handler = shouldShowTermError ? handleClickOnContinueButton : handleClickOnAnswerButton;
+
+              handler();
+            }
           }}
         />
       </div>
 
       <div>
-        {!shouldShowTermError && !shouldShowContinueButton ? (
-          <Button
-            variant="contained"
-            onClick={() => {
-              const isValid = termValueTranslated.trim() === termValueTranslatedByUser.trim();
-
-              if (!isValid) {
-                setLearningState({ ...learningState, nextTerms: [...learningState.nextTerms, { ...term }] });
-
-                setShouldShowTermError(true);
-                setShouldShowContinueButton(true);
-                return;
-              }
-
-              goToNextTerm();
-            }}
-          >
+        {visibleButtonKey === 'answer' && (
+          <Button variant="contained" onClick={storeRef.current.handleClickOnAnswerButton}>
             Ответить
           </Button>
-        ) : (
-          <Button
-            variant="contained"
-            onClick={() => {
-              setShouldShowTermError(false);
-              setShouldShowContinueButton(false);
+        )}
 
-              if (completedTermsCount === allTermsCount) return;
-
-              goToNextTerm();
-            }}
-          >
+        {visibleButtonKey === 'continue' && (
+          <Button variant="contained" onClick={storeRef.current.handleClickOnContinueButton}>
             Продолжить
           </Button>
         )}
