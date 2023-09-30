@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { LearningExerciseTermsMemorizationStoreState } from './termsMemorization';
+import { LearningExerciseTermsMemorizationStoreState } from './store';
 import isEqual from 'lodash/isEqual';
 
 export type VisibleButtonKey = 'answer' | 'continue';
