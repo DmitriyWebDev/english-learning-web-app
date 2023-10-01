@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "start-dev": "cross-env HOST=http://localhost:3017 TS_NODE_PROJECT=\"tsconfig-for-webpack.json\" webpack serve --open --config webpack.dev.ts",
+    "build": "cross-env TS_NODE_PROJECT=\"tsconfig-for-webpack.json\" webpack --config webpack.prod.ts",
     "test-local": "npm run check-types && cross-env TS_NODE_PROJECT=\"tsconfig-for-webpack.json\" node -r ts-node/register scripts/run-tests --watchAll --logHeapUsage",
     "test-ci": "cross-env TS_NODE_PROJECT=\"tsconfig-for-webpack.json\" node -r ts-node/register scripts/run-tests --logHeapUsage",
     "check-types": "tsc --noEmit",
