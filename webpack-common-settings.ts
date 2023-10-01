@@ -24,7 +24,10 @@ const COMMON_WEBPACK_PLUGINS = [
     template: './public/index.html',
   }),
   new CopyWebpackPlugin({
-    patterns: [{ from: './public/img', to: 'img' }],
+    patterns: [
+      { from: './public/img', to: 'img' },
+      { from: './.nojekyll', to: './' },
+    ],
   }),
   new ESLintPlugin({
     extensions: RESOLVE_SETTING_VALUE.extensions,
