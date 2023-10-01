@@ -16,7 +16,7 @@ export const SaveDictionaryOnEditingPage: FC = () => {
   const dictionaryStore = useDictionaryStore();
 
   return (
-    <Button variant="contained" onClick={dictionaryStore.updateDictionary}>
+    <Button variant="contained" onClick={dictionaryStore.updateDictionarys}>
       Сохранить
     </Button>
   );
