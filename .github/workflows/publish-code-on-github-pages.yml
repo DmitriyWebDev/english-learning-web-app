@@ -14,7 +14,7 @@ jobs:
       - run: npm ci
       - run: npm run build
       - name: Use the Upload Artifact GitHub Action
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v1
         with:
           name: app-build
           path: public/static/
