@@ -13,13 +13,8 @@ jobs:
           node-version: '18'
       - run: npm ci
       - run: npm run build
-
-  archive-build-artifacts:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
       - name: Use the Upload Artifact GitHub Action
         uses: actions/upload-artifact@v2
         with:
           name: app-build
-          path: public/static/
+          path: public/static
