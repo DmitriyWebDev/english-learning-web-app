@@ -1,0 +1,49 @@
+name: publish-code-on-github-pages
+run-name: ${{ github.actor }} is publishing code on GitHub Pages
+on:
+  push:
+    branches: [main]
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: npm ci
+      - run: npm run build
+      - name: Use the Upload Artifact GitHub Action
+        uses: actions/upload-pages-artifact@v2
+        with:
+          name: app-build
+          path: public/static/
+
+  # Example - https://github.com/NickBorgers/node-red/blob/d33e2e946b245a811e871da8ef26b41560cd0e5a/.github/workflows/publish.yml#L32
+  deploy:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+        with:
+          artifact_name: app-build

@@ -3,14 +3,16 @@ import autoprefixer from 'autoprefixer';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { WEBPACK_COMMON_SETTINGS } from './webpack-common-settings';
 
+/** Important for Github actions deployment - https://github.com/vercel/next.js/discussions/21844 */
+
 const { APP_DIR_PATH, BUILD_DIR_PATH, RESOLVE_SETTING_VALUE, COMMON_WEBPACK_PLUGINS } = WEBPACK_COMMON_SETTINGS;
 
 const config: Configuration = {
   entry: [APP_DIR_PATH + '/app.tsx'],
   output: {
     path: BUILD_DIR_PATH,
-    filename: 'js/bundle.[fullhash].js',
-    publicPath: '/',
+    filename: 'bundle.[fullhash].js',
+    publicPath: '',
   },
   module: {
     rules: [
@@ -119,7 +121,7 @@ const config: Configuration = {
   plugins: [
     ...COMMON_WEBPACK_PLUGINS,
     new MiniCssExtractPlugin({
-      filename: 'css/[name].[hash].css',
+      filename: '[name].[hash].css',
     }),
   ],
   resolve: RESOLVE_SETTING_VALUE,
