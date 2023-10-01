@@ -1,8 +1,10 @@
 name: publish-code-on-github-pages
 run-name: ${{ github.actor }} is publishing code on GitHub Pages
-on: [page_build]
+on:
+  push:
+    branches: [add-ci-cd]
 jobs:
-  validate-code:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -10,5 +12,14 @@ jobs:
         with:
           node-version: '18'
       - run: npm ci
-      - run: npm run check-types
+      - run: npm run build
 
+  archive-build-artifacts:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use the Upload Artifact GitHub Action
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-build
+          path: public/static
