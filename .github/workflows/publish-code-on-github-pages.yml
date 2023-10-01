@@ -14,11 +14,12 @@ jobs:
       - run: npm ci
       - run: npm run build
       - name: Use the Upload Artifact GitHub Action
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-pages-artifact@v2
         with:
           name: app-build
           path: public/static
 
+  # Example - https://github.com/NickBorgers/node-red/blob/d33e2e946b245a811e871da8ef26b41560cd0e5a/.github/workflows/publish.yml#L32
   deploy:
     needs: build
     permissions:
