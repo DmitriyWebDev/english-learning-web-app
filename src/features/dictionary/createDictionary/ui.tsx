@@ -5,6 +5,8 @@ import { useDictionaryStore } from '../../../entities/dictionary';
 export const CreateDictionaryOnCreationPage: FC = () => {
   const dictionaryStore = useDictionaryStore();
 
+  console.log(111);
+
   return (
     <Button variant="contained" onClick={dictionaryStore.createDictionary}>
       Создать
