@@ -9,7 +9,7 @@ const config: Configuration = {
   entry: [APP_DIR_PATH + '/app.tsx'],
   output: {
     path: BUILD_DIR_PATH,
-    filename: 'js/bundle.[fullhash].js',
+    filename: 'bundle.[fullhash].js',
     publicPath: '/',
   },
   module: {
@@ -119,7 +119,7 @@ const config: Configuration = {
   plugins: [
     ...COMMON_WEBPACK_PLUGINS,
     new MiniCssExtractPlugin({
-      filename: 'css/[name].[hash].css',
+      filename: '[name].[hash].css',
     }),
   ],
   resolve: RESOLVE_SETTING_VALUE,
