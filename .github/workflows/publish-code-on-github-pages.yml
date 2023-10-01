@@ -1,0 +1,14 @@
+name: publish-code-on-github-pages
+run-name: ${{ github.actor }} is publishing code on GitHub Pages
+on: [page_build]
+jobs:
+  validate-code:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: npm ci
+      - run: npm run check-types
+
