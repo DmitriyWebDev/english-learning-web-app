@@ -1,5 +1,5 @@
 name: validate-code
-run-name: ${{ github.actor }} is learning GitHub Actions
+run-name: ${{ github.actor }} started code validation
 on: [push]
 jobs:
   check-types:
