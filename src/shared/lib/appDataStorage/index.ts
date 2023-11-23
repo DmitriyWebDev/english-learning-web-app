@@ -1,6 +1,5 @@
 import { DictionaryDto, DictionaryDtoForCreation } from '../../api';
 import { getUniqueId } from '../utils/generate/generate-utils';
-import { cloneDeep } from 'lodash';
 
 const STORAGE_KEYS_PREFIX = '@engLearnApp_';
 
@@ -55,10 +54,9 @@ export class AppDataStorage {
     }
 
     const dictionaries: DictionaryDto[] = this.getDictionaries();
-    const dictionaryForSave = { ...cloneDeep(newDictionary), id: getUniqueId() };
 
     const addDictionary = () => {
-      dictionaries.push(dictionaryForSave);
+      dictionaries.push({ ...newDictionary, id: getUniqueId() });
       this.setDictionaries(dictionaries);
     };
 
