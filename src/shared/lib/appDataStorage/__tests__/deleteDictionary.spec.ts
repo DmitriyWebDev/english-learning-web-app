@@ -19,7 +19,7 @@ const dictionaryThree: DictionaryDto = {
   title: 'Словарь №3',
 };
 
-describe('AppDataStorage.createDictionary()', () => {
+describe('AppDataStorage.deleteDictionary()', () => {
   const resetStoreData = () => localStorage.clear();
 
   beforeEach(() => {
